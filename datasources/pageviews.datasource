@@ -1,0 +1,20 @@
+
+DESCRIPTION >
+    Page views data including visitor information and engagement metrics
+
+SCHEMA >
+    `timestamp` DateTime `json:$.timestamp`,
+    `page_path` String `json:$.page_path`,
+    `visitor_id` String `json:$.visitor_id`,
+    `session_id` String `json:$.session_id`,
+    `referrer` String `json:$.referrer`,
+    `country` String `json:$.country`,
+    `device` String `json:$.device`,
+    `browser` String `json:$.browser`,
+    `bounce` UInt8 `json:$.bounce`,
+    `time_on_page` Float32 `json:$.time_on_page`,
+    `page_depth` UInt8 `json:$.page_depth`
+
+ENGINE "MergeTree"
+ENGINE_PARTITION_KEY "toYYYYMM(timestamp)"
+ENGINE_SORTING_KEY "timestamp, visitor_id, session_id"

@@ -1,0 +1,19 @@
+DESCRIPTION >
+    Gets most visited pages with engagement metrics
+
+NODE top_pages_node
+SQL >
+    %
+    SELECT 
+        page_path,
+        count(DISTINCT visitor_id) as visitors,
+        count(*) as pageviews,
+        round(avg(time_on_page), 2) as avg_time_on_page,
+        round(countIf(bounce = 1) * 100.0 / count(DISTINCT session_id), 2) as bounce_rate
+    FROM pageviews
+    WHERE timestamp BETWEEN {{DateTime(start_date, '2025-03-04 00:00:00')}} AND {{DateTime(end_date, '2025-03-05 23:59:59')}}
+    GROUP BY page_path
+    ORDER BY pageviews DESC
+    LIMIT {{Int32(limit, 10)}}
+
+TYPE endpoint
